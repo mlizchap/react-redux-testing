@@ -24,14 +24,14 @@
   ```
  - setup the enzyme adapter in a file called `setupTest.js`
    ```javascript
-   import Enzyme, { shallow } from 'enzyme';
-  import EnzymeAdapter from 'enzyme-adapter-react-16';
+    import Enzyme, { shallow } from 'enzyme';
+    import EnzymeAdapter from 'enzyme-adapter-react-16';
 
-  Enzyme.configure({ 
+    Enzyme.configure({ 
       adapter: new EnzymeAdapter(),
       disableLifecycleMethods: true,
-  });
- ```
+    });
+    ```
 
 ## Types of Tests
 ### Test to find a component (helper function)
