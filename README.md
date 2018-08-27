@@ -11,13 +11,13 @@
   - [Renders Component Props](#renders-component-props)
   - [Checks Proptypes](#check-proptypes)
   - Redux Tests: 
-    - Updates State When Action is Dispatched(#updates-state-when-action-is-dispatched)
-    - Action is Dispatched When User Submits(#action-is-dispatched-when-user-submits)
-    - Action is Dispatched When Component is Mount(#action-is-dispatched-when-component-is-mount)
-    - Component Has Access to Redux Props - State(#component-has-access-to-redux-state-props)
-    - Component Has Access to Redux Props - ActionCreator(#component-has-access-to-redux-actioncreator-Props)
-    - Reducer Returns Correct State Depending on if Action is Passed(#reducer-returns-correct-state-depending-on-if-action-is-passed)
-    - Action Creator Updates State When Dispatched(#action-creator-updates-state-when-dispatched )
+    - [Updates State When Action is Dispatched](#updates-state-when-action-is-dispatched)
+    - [Action is Dispatched When User Submits](#action-is-dispatched-when-user-submits)
+    - [Action is Dispatched When Component is Mount](#action-is-dispatched-when-component-is-mount)
+    - [Component Has Access to Redux Props - State](#component-has-access-to-redux-state-props)
+    - [Component Has Access to Redux Props - ActionCreator](#component-has-access-to-redux-actioncreator-Props)
+    - [Reducer Returns Correct State Depending on if Action is Passed](#reducer-returns-correct-state-depending-on-if-action-is-passed)
+    - [Action Creator Updates State When Dispatched](#action-creator-updates-state-when-dispatched )
 
 ## Overview
 - BDD - Behavior Driven Development: focuses on the behavior of the app
