@@ -37,11 +37,11 @@
 
 - **describe()**: can group multiplue tests together
   ```javascript
-  describe('description of group of test') {
-    test('test #1 descriptio) {
+  describe("description of group of test") {
+    test("test #1 description") {
       /*...*/
     }
-    test('test #2 descriptio) {
+    test("test #2 description") {
       /*...*/
     }
   }
@@ -77,7 +77,7 @@
 
 - testing if a component exists:
     ```javascript 
-    import ComponentName from './ComponentFile Name
+    import ComponentName from './ComponentFile Name'
 
     const wrapper = shallow(<ComponentName />
     const component = wrapper.find(`[data-test="${val}"]`)
@@ -85,7 +85,7 @@
     ```
 - checking text of a component 
   ```javascript
-    import ComponentName from './ComponentFile Name
+    import ComponentName from './ComponentFile Name'
 
     const wrapper = shallow(<ComponentName />
     const component = wrapper.find(`[data-test="${val}"]`)
@@ -97,20 +97,20 @@
    const defaultProps = { success: false}; /* initial props givin to component */
 
    const setup = (props={}) => {
-      const setupProps = {...defaultProps, ...props}; /* can add new props to give to component (can overwrites default props) */
+      const setupProps = {...defaultProps, ...props}; /* can add new props to give to component (overwrites default props) */
       return shallow(<Congrats { ...setupProps } />)
-  }
-  test('renders no text when success prop is false', () => {
-      const wrapper = setup({ success: false }); // test where props given are the same as default
-      const component = findByTestAttr(wrapper, 'component-congrats');
-      expect(component.text()).toBe('');
-  });
-  test('renders non-empty congrats message when congrats message is true', () => {
-      const wrapper = setup({ success: true }); // test where props given are diff from default
-      const message = findByTestAttr(wrapper, 'congrats-message');
-      expect(message.text().length).not.toBe(0);
-  });
-  ```
+    }
+    test('renders no text when success prop is false', () => {
+        const wrapper = setup({ success: false }); // test where props given are the same as default
+        const component = findByTestAttr(wrapper, 'component-congrats');
+        expect(component.text()).toBe('');
+    });
+    test('renders non-empty congrats message when congrats message is true', () => {
+        const wrapper = setup({ success: true }); // test where props given are diff from default
+        const message = findByTestAttr(wrapper, 'congrats-message');
+        expect(message.text().length).not.toBe(0);
+    });
+    ```
 - testing propTypes
   - maked sure there is no `propError` when rendering with propTypes
   - if checking propTypes on multiple components, may want to put in a `testUtils.js` file
