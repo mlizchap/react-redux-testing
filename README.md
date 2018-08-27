@@ -2,7 +2,7 @@
 
 
 ## TOC
-- [Overview](#Overview)
+- [Overview](#overview)
 - Jest
 - Enzyme
 - Setup
