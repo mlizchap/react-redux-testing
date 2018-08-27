@@ -10,8 +10,6 @@
   - Renders Component
   - Renders Component Props
   - Checks Proptypes
-  - Renders Component Conditionally Based on State
-  - Renders Text Conditionally Based on State
   - Redux Tests: 
     - Updates State When Action is Dispatched
     - Action is Dispatched When User Submits
@@ -102,7 +100,6 @@
   wrapper.instance().props
   ```
 
-
 ## Setup
 - install jest, enyzme, and the enzyme adapter 
   ```javascript
@@ -120,6 +117,7 @@
 ## Popular Tests
 
 ### Renders Component 
+- 'in `componentName.test.js`
 ```javascript 
 import ComponentName from './ComponentFile Name'
 
@@ -129,9 +127,10 @@ assert(component.length).toBe(1);
 ```
 
 ### Renders Component Props
+- in `componentName.test.js`
 - give initilal props to a component:
    ```javascript
-   const defaultProps = { success: false}; /* initial props givin to component */
+   const defaultProps = { success: false};
   ```
 - create a setup for creating a component copy, give the component initial props, with the optional arg to add new props
 ```javascript
@@ -140,14 +139,6 @@ assert(component.length).toBe(1);
     return shallow(<Congrats { ...setupProps } />)
   }
  ```
-- test the component with props given that are different from the defaultProps
-  ```javascript
-  test('renders non-empty congrats message when congrats message is true', () => {
-      const wrapper = setup({ success: true }); // test where props given are diff from default
-      const message = findByTestAttr(wrapper, 'congrats-message');
-      expect(message.text().length).not.toBe(0);
-  });
-  ```
 - test the components with the props the same as default:
   ```javascript
   test('renders no text when success prop is false', () => {
@@ -156,12 +147,20 @@ assert(component.length).toBe(1);
       expect(component.text()).toBe('');
   });
   ```
+- test the component with props given that are different from the defaultProps
+  ```javascript
+  test('renders non-empty congrats message when congrats message is true', () => {
+      const wrapper = setup({ success: true }); // test where props given are diff from default
+      const message = findByTestAttr(wrapper, 'congrats-message');
+      expect(message.text().length).not.toBe(0);
+  });
+  ```
 
 ### Checks Proptypes
 - maked sure there is no `propError` when rendering with propTypes
 - if checking propTypes on multiple components, may want to put in a `testUtils.js` file
+  - (in `test/testUtils.js`)
   ```javascript
-  // testUtils.js
   export const checkProps = (component, conformingProps) => {
       const propError = checkPropTypes(
           component.propTypes,
@@ -173,34 +172,21 @@ assert(component.length).toBe(1);
   }
   ```
 - testing the component:
+  - in `componentName.test.js`
   ```javascript
-  import Componet from './Component.js'
+  import componentName from './Component.js'
 
   test('does not throw warning with expected props', () => {
     const expectedProps = { success: false };
-    checkProps(Componet, expectedProps);
+    checkProps(componentName, expectedProps);
   });
   ```
-
-### Renders Component Conditionally Based on State
-
-### Renders Text Conditionally Based on State
-```javascript
-test('renders no text when success prop is false', () => {
-    const wrapper = setup({ success: false });
-    const component = findByTestAttr(wrapper, 'component-congrats');
-    expect(component.text()).toBe('');
-});
-test('renders non-empty congrats message when congrats message is true', () => {
-    const wrapper = setup({ success: true });
-    const message = findByTestAttr(wrapper, 'congrats-message');
-    expect(message.text().length).not.toBe(0);
-});
-```
 ### Redux Tests:
 
 #### Updates State When Action is Dispatched (Redux Thunk)
-- set up storeFactory with middleware
+- tests both the action and reducers - an integration test -`integeration.test.js` 
+- store factory: a function that returns a store that will provide a store for testing purposes
+- set up storeFactory with middleware in `test/testUtils.js`
   ```javascript
   import { createStore, applyMiddleware } from 'redux';
   import rootReducer from './reducers';
@@ -234,7 +220,6 @@ test('renders non-empty congrats message when congrats message is true', () => {
 const expectedState = { x }
 expect(newState).toEqual(expectedState);
 ```
-
 
 #### Action is Dispatched When User Submits
 - in component where user submits: `componentName.test.js`
@@ -304,7 +289,7 @@ expect(newState).toEqual(expectedState);
         disableLifecycleMethods: true,
     });
     ```
- - create a mock function and create props with the mock funciton
+ - in `input.test.js` create a mock function and create props with the mock funciton
    ```javascript
     const getSecretWordMock = jest.fn();
 
@@ -330,6 +315,7 @@ expect(newState).toEqual(expectedState);
   ```
 
 #### Component Has Access to Redux Props - State
+- in `component.test.js`
 - since a connected component is a higher order component, we need to render the child component to test it using`dive()`
   ```javascript
   const setup = (initialState={}) => {
@@ -348,15 +334,13 @@ expect(newState).toEqual(expectedState);
   });
   ```
 #### Component Has Access to Redux Props - ActionCreator
+- in `component.test.js`
 ```
 const setup = (initialState={}) => {
     const store = storeFactory(initialState);
     const wrapper = shallow(<Input store={store}/>).dive();
     return wrapper;
 }
-
-setup();
-
 test('guessword action creator is a function prop', () => {
     const wrapper = setup();
     const successProp = wrapper.instance().props.guessWord;
@@ -365,6 +349,7 @@ test('guessword action creator is a function prop', () => {
 ```
 
 #### Reducer Returns Correct State Depending on if Action is Passed
+- in `reducers/reducerName.test.js`
 ```javascript
   ```javascript
   import { actionTypes } from '../actions';
@@ -434,31 +419,6 @@ test('guessword action creator is a function prop', () => {
 
 
 
-
-
-### checking text of a component 
-  ```javascript
-    import ComponentName from './ComponentFile Name'
-
-    const wrapper = shallow(<ComponentName />
-    const component = wrapper.find(`[data-test="${val}"]`)
-    expect(component.text()).toBe('');
-  ```
-
-
-
-
-
-## Redux Testing
-
-### Creating a Store Factory
-```javascript
-  import { createStore } from 'redux';
-
-  export const storeFactory = (initialState) => {
-    return createSotre (rootReducer, initialState);
-  }
-```
 
 
 
