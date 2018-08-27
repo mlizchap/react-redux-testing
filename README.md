@@ -91,14 +91,16 @@
   wrapper.find('.CLASS_NAME');
   wrapper.find('#ID_NAME');
   ```
-- **.toBe()**:
+- **.toBe()**: compares values
 
-- **.toEqaul()**
+- **.toEqaul()**: deep compares
 
 - **.isnstance()**: renders an instance of a component where you can pull of props 
   ```javsacript
   wrapper.instance().props
   ```
+
+- **.simulate(eventName)**: simulates events
 
 ## Setup
 - install jest, enyzme, and the enzyme adapter 
@@ -118,13 +120,13 @@
 
 ### Renders Component 
 - 'in `componentName.test.js`
-```javascript 
-import ComponentName from './ComponentFile Name'
+  ```javascript 
+  import ComponentName from './ComponentFile Name'
 
-const wrapper = shallow(<ComponentName />
-const component = wrapper.find(`[data-test="VALUE"]`)
-assert(component.length).toBe(1);
-```
+  const wrapper = shallow(<ComponentName />
+  const component = wrapper.find(`[data-test="VALUE"]`)
+  assert(component.length).toBe(1);
+  ```
 
 ### Renders Component Props
 - in `componentName.test.js`
@@ -133,12 +135,12 @@ assert(component.length).toBe(1);
    const defaultProps = { success: false};
   ```
 - create a setup for creating a component copy, give the component initial props, with the optional arg to add new props
-```javascript
- const setup = (props={}) => {
-    const setupProps = {...defaultProps, ...props}; /* can add new props to give to component (overwrites default props) */
-    return shallow(<Congrats { ...setupProps } />)
-  }
- ```
+  ```javascript
+   const setup = (props={}) => {
+      const setupProps = {...defaultProps, ...props}; /* can add new props to give to component (overwrites default props) */
+      return shallow(<Congrats { ...setupProps } />)
+    }
+   ```
 - test the components with the props the same as default:
   ```javascript
   test('renders no text when success prop is false', () => {
@@ -216,10 +218,10 @@ assert(component.length).toBe(1);
   const newState = store.getState();
   ```
 - assert that the new state is what we expected
-```javascript
-const expectedState = { x }
-expect(newState).toEqual(expectedState);
-```
+  ```javascript
+  const expectedState = { x }
+  expect(newState).toEqual(expectedState);
+  ```
 
 #### Action is Dispatched When User Submits
 - in component where user submits: `componentName.test.js`
@@ -335,35 +337,35 @@ expect(newState).toEqual(expectedState);
   ```
 #### Component Has Access to Redux Props - ActionCreator
 - in `component.test.js`
-```
-const setup = (initialState={}) => {
-    const store = storeFactory(initialState);
-    const wrapper = shallow(<Input store={store}/>).dive();
-    return wrapper;
-}
-test('guessword action creator is a function prop', () => {
-    const wrapper = setup();
-    const successProp = wrapper.instance().props.guessWord;
-    expect(successProp).toBeInstanceOf(Function);
-})
-```
+  ```javascript
+  const setup = (initialState={}) => {
+      const store = storeFactory(initialState);
+      const wrapper = shallow(<Input store={store}/>).dive();
+      return wrapper;
+  }
+  test('guessword action creator is a function prop', () => {
+      const wrapper = setup();
+      const successProp = wrapper.instance().props.guessWord;
+      expect(successProp).toBeInstanceOf(Function);
+  })
+  ```
 
 #### Reducer Returns Correct State Depending on if Action is Passed
 - in `reducers/reducerName.test.js`
-```javascript
   ```javascript
-  import { actionTypes } from '../actions';
-  import successReducer from './successReducer';
+    ```javascript
+    import { actionTypes } from '../actions';
+    import successReducer from './successReducer';
 
-  test('returns default initial state of false when no action is passed', () => {
-      const newState = successReducer(undefined, {});
-      expect(newState).toBe(false);
-  });
-  test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
-      const newState = successReducer(undefined, {type: actionTypes.CORRECT_GUESS})
-      expect(newState).toBe(true);
-  });
-  ```
+    test('returns default initial state of false when no action is passed', () => {
+        const newState = successReducer(undefined, {});
+        expect(newState).toBe(false);
+    });
+    test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
+        const newState = successReducer(undefined, {type: actionTypes.CORRECT_GUESS})
+        expect(newState).toBe(true);
+    });
+    ```
 #### Action Creator Updates State When Dispatched 
 - tests the action - `action/index.test.js`
 - **moxios**: instead of looking at the HTTP response from Axios, looks at a hard coated response we get from testing 
