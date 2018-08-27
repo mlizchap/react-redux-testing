@@ -134,14 +134,14 @@
         );
         expect(propError).toBeUndefined();
     }
-  ```
+    ```
   - testing the component:
-  ```javascript
-  import Componet from './Component.js'
-  
-  test('does not throw warning with expected props', () => {
-    const expectedProps = { success: false };
-    checkProps(Componet, expectedProps);
-  });
-  ```
+    ```javascript
+    import Componet from './Component.js'
+
+    test('does not throw warning with expected props', () => {
+      const expectedProps = { success: false };
+      checkProps(Componet, expectedProps);
+    });
+    ```
 ## Redux Testing
