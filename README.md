@@ -2,7 +2,7 @@
 
 
 ## TOC
-- Overview
+- [Overview](#Overview)
 - Jest
 - Enzyme
 - Setup
@@ -21,13 +21,35 @@
     - Action Creator Updates State When Dispatched 
 
 ## Overview
+- **Unit**: Tests one piece (usually 1 function)
+- **Integration**:  Tests how multiple units work together
+- **End-to-End**: Tests how a user would interact with the app
+- **Snapshot**: Freezes a component and future output is compared against it, fails if there are changes
+
+- **BDD** - Behavior Driven Development - focuses on the behavior of the app
+
+- **Jest**:
+- **Enzyme**: creates a virtual DOM for testing and allows access to props and state to test for values 
+
 
 ## Jest
 
 ## Enzyme
 
 ## Setup
+- install jest, enyzme, and the enzyme adapter 
+  ```javascript
+  $ npm install --save jest enzyme enzyme-adapter-react-16
+  ```
+- setup the enzyme adapter in a file called `setupTest.js`, Jest will run this file before the other test files
+   ```javascript
+    import Enzyme, { shallow } from 'enzyme';
+    import EnzymeAdapter from 'enzyme-adapter-react-16';
 
+    Enzyme.configure({ 
+      adapter: new EnzymeAdapter(),
+    });
+    ```
 ## Popular Tests
 
 ### Renders Component 
@@ -66,33 +88,9 @@
 
 
 ## Types of Tests
-- **Unit**: Tests one piece (usually 1 function)
-- **Integration**:  Tests how multiple units work together
-- **End-to-End**: Tests how a user would interact with the app
-- **Snapshot**: Freezes a component and future output is compared against it, fails if there are changes
-
-- BDD - Behavior Driven Development - focuses on the behavior of the app
-
-## Tools
-- **Jest**:
-- **Enzyme**: creates a virtual DOM for testing and allows access to props and state to test for values 
 
 
-## Setup
-- install jest, enyzme, and the enzyme adapter 
-  ```javascript
-  $ npm install --save jest enzyme enzyme-adapter-react-16
-  ```
- - setup the enzyme adapter in a file called `setupTest.js`, Jest will run this file before the other test files
-   ```javascript
-    import Enzyme, { shallow } from 'enzyme';
-    import EnzymeAdapter from 'enzyme-adapter-react-16';
 
-    Enzyme.configure({ 
-      adapter: new EnzymeAdapter(),
-      disableLifecycleMethods: true,
-    });
-    ```
     
 ## Jest Functions:
 - **test()**
