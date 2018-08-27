@@ -1,5 +1,70 @@
 # react-redux-testing
 
+
+## TOC
+- Overview
+- Jest
+- Enzyme
+- Setup
+- Popular Tests:
+  - Renders Component
+  - Renders Component Props
+  - Checks Proptypes
+  - Renders Component Conditionally Based on State
+  - Renders Text Conditionally Based on State
+  - Redux Tests: 
+    - Updates State When Action is Dispatched
+    - Action is Dispatched When User Submits
+    - Component Has Access to Redux Props - State
+    - Component Has Access to Redux Props - ActionCreator
+    - Reducer Returns Correct State Depending on if Action is Passed
+    - Action Creator Updates State When Dispatched 
+
+## Overview
+
+## Jest
+
+## Enzyme
+
+## Setup
+
+## Popular Tests
+
+### Renders Component 
+
+### Renders Component Props
+
+### Checks Proptypes
+
+### Renders Component Conditionally Based on State
+
+### Renders Text Conditionally Based on State
+
+### Redux Tests:
+
+#### Updates State When Action is Dispatched
+
+#### Action is Dispatched When User Submits
+
+#### Component Has Access to Redux Props - State
+
+#### Component Has Access to Redux Props - ActionCreator
+
+#### Reducer Returns Correct State Depending on if Action is Passed
+
+#### Action Creator Updates State When Dispatched 
+
+
+
+
+
+
+
+
+
+
+
+
 ## Types of Tests
 - **Unit**: Tests one piece (usually 1 function)
 - **Integration**:  Tests how multiple units work together
