@@ -3,7 +3,7 @@
 
 ## TOC
 - [Overview](#overview)
-- Jest
+- [Jest](#jest)
 - Enzyme
 - Setup
 - Popular Tests:
@@ -50,7 +50,7 @@
   }
   ```
 
-- beforeEach() and afterEach()
+- **beforeEach()** and **afterEach()**
   - functions that run before and after tests are written, written inside the describe block
     ```javascript
     describe('description of group of test', () => {
@@ -68,8 +68,12 @@
       }
     }
   ```
+  
+- **.toBe()**: checks the values of what you would expect
 
-- jest.fn(): creates a mock function
+- **.toEqaul()**: use when you want to check two objects have the same value
+
+- **jest.fn()**: creates a mock function
 
 ## Enzyme
 ### Enzyme Functions:
@@ -80,9 +84,18 @@
 
     const wrapper = shallow(<ComponentName />
     ```
-  - **mount**: 
+  - **mount**: renders the full DOM API
+    ```javascript
+    import { mount } from 'enzyme';
+
+    const wrapper = mount(<ComponentName />);
+    ```
   
 - **.debug()**: logs the html of the component
+  ```javascript
+  const wrapper = shallow(<ComponentName />
+  wrapper.debug()
+  ```
 
 - **.find()** : finds a component.  Can be by className, id, element or attribute.
   ```javascript
@@ -91,16 +104,15 @@
   wrapper.find('.CLASS_NAME');
   wrapper.find('#ID_NAME');
   ```
-- **.toBe()**: compares values
-
-- **.toEqaul()**: deep compares
-
 - **.isnstance()**: renders an instance of a component where you can pull of props 
   ```javsacript
   wrapper.instance().props
   ```
 
 - **.simulate(eventName)**: simulates events
+  ```javascript
+  wrapper.simulate("click")
+  ```
 
 ## Setup
 - install jest, enyzme, and the enzyme adapter 
