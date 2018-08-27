@@ -348,7 +348,7 @@ expect(newState).toEqual(expectedState);
       success: false,
       guessedWords: []
     }
-  ```
+    ```
 - set uo component with the mock function as the prop
   ```javascript
   const wrapper = shallow(<UnconnectedApp {...props} />)
