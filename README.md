@@ -4,20 +4,20 @@
 ## TOC
 - [Overview](#overview)
 - [Jest](#jest)
-- Enzyme
-- Setup
+- [Enzyme](#enzyme)
+- [Setup](#setup)
 - Popular Tests:
-  - Renders Component
-  - Renders Component Props
-  - Checks Proptypes
+  - [Renders Component](#renders-component)
+  - [Renders Component Props](#renders-component-props)
+  - [Checks Proptypes](#check-proptypes)
   - Redux Tests: 
-    - Updates State When Action is Dispatched
-    - Action is Dispatched When User Submits
-    - Action is Dispatched When Component is Mount
-    - Component Has Access to Redux Props - State
-    - Component Has Access to Redux Props - ActionCreator
-    - Reducer Returns Correct State Depending on if Action is Passed
-    - Action Creator Updates State When Dispatched 
+    - Updates State When Action is Dispatched(#updates-state-when-action-is-dispatched)
+    - Action is Dispatched When User Submits(#action-is-dispatched-when-user-submits)
+    - Action is Dispatched When Component is Mount(#action-is-dispatched-when-component-is-mount)
+    - Component Has Access to Redux Props - State(#component-has-access-to-redux-state-props)
+    - Component Has Access to Redux Props - ActionCreator(#component-has-access-to-redux-actioncreator-Props)
+    - Reducer Returns Correct State Depending on if Action is Passed(#reducer-returns-correct-state-depending-on-if-action-is-passed)
+    - Action Creator Updates State When Dispatched(#action-creator-updates-state-when-dispatched )
 
 ## Overview
 - BDD - Behavior Driven Development: focuses on the behavior of the app
@@ -328,7 +328,7 @@
   expect(getSecretWordCallCount).toBe(1);
   ```
 
-#### Component Has Access to Redux Props - State
+#### Component Has Access to Redux State Props 
 - in `component.test.js`
 - since a connected component is a higher order component, we need to render the child component to test it using`dive()`
   ```javascript
@@ -347,7 +347,7 @@
       expect(successProp).toBe(success)
   });
   ```
-#### Component Has Access to Redux Props - ActionCreator
+#### Component Has Access to Redux ActionCreator Props 
 - in `component.test.js`
   ```javascript
   const setup = (initialState={}) => {
