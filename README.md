@@ -8,13 +8,10 @@
 
 - BDD - Behavior Driven Development - focuses on the behavior of the app
 
-## Jest
+## Tools
+- **Jest**:
+- **Enzyme**: creates a virtual DOM for testing and allows access to props and state to test for values 
 
-## Enzyme
-- creates a virtual DOM for testing
-- allows access to props and state to test for values 
-
-- **.debug()** renders the DOM as a string 
 
 ## Setup
 - install jest, enyzme, and the enzyme adapter 
@@ -52,7 +49,7 @@
 - afterEach()
 
 ## Enzyme Functions:
-- rendering components a creating a wrapper:
+- **rendering components** by creating a wrapper:
   - **shallow**: renders component only 1 level deep; renders parent but uses placeholders for children 
     ```
     import Enzyme, { shallow } from 'enzyme';
@@ -61,8 +58,7 @@
     ```
   - **mount**: 
   
-  - **.debug()**: logs the html of the component
-
+- **.debug()**: logs the html of the component
 
 - **.find()** : finds a component.  Can be by className, id, element or attribute.
   ```javascript
