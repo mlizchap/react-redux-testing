@@ -288,7 +288,7 @@
       const guessedWordArg = guessWordMock.mock.calls[0][0];
       expect(guessedWordArg).toBe(guessedWord);
   })
-```
+  ```
 - testing that the input box clears on submit
   ```javascript
   test('input box clears on submit', () => {
