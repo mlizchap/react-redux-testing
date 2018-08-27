@@ -15,6 +15,7 @@
   - Redux Tests: 
     - Updates State When Action is Dispatched
     - Action is Dispatched When User Submits
+    - Action is Dispatched When Component is Mount
     - Component Has Access to Redux Props - State
     - Component Has Access to Redux Props - ActionCreator
     - Reducer Returns Correct State Depending on if Action is Passed
@@ -33,66 +34,7 @@
 
 
 ## Jest
-
-## Enzyme
-
-## Setup
-- install jest, enyzme, and the enzyme adapter 
-  ```javascript
-  $ npm install --save jest enzyme enzyme-adapter-react-16
-  ```
-- setup the enzyme adapter in a file called `setupTest.js`, Jest will run this file before the other test files
-   ```javascript
-    import Enzyme, { shallow } from 'enzyme';
-    import EnzymeAdapter from 'enzyme-adapter-react-16';
-
-    Enzyme.configure({ 
-      adapter: new EnzymeAdapter(),
-    });
-    ```
-## Popular Tests
-
-### Renders Component 
-
-### Renders Component Props
-
-### Checks Proptypes
-
-### Renders Component Conditionally Based on State
-
-### Renders Text Conditionally Based on State
-
-### Redux Tests:
-
-#### Updates State When Action is Dispatched
-
-#### Action is Dispatched When User Submits
-
-#### Component Has Access to Redux Props - State
-
-#### Component Has Access to Redux Props - ActionCreator
-
-#### Reducer Returns Correct State Depending on if Action is Passed
-
-#### Action Creator Updates State When Dispatched 
-
-
-
-
-
-
-
-
-
-
-
-
-## Types of Tests
-
-
-
-    
-## Jest Functions:
+### Jest Functions
 - **test()**
 
 - **describe()**: can group multiplue tests together
@@ -112,8 +54,8 @@
 - afterEach()
 
 - jest.fn(): creates a mock functions
-
-## Enzyme Functions:
+## Enzyme
+### Enzyme Functions:
 - **rendering components** by creating a wrapper:
   - **shallow**: renders component only 1 level deep; renders parent but uses placeholders for children 
     ```
@@ -142,124 +84,103 @@
   ```
 
 
-## Popular Tests: 
-
-### testing if a component exists:
-    ```javascript 
-    import ComponentName from './ComponentFile Name'
-
-    const wrapper = shallow(<ComponentName />
-    const component = wrapper.find(`[data-test="${val}"]`)
-    assert(component.length).toBe(1);
-    ```
-### checking text of a component 
+## Setup
+- install jest, enyzme, and the enzyme adapter 
   ```javascript
-    import ComponentName from './ComponentFile Name'
-
-    const wrapper = shallow(<ComponentName />
-    const component = wrapper.find(`[data-test="${val}"]`)
-    expect(component.text()).toBe('');
+  $ npm install --save jest enzyme enzyme-adapter-react-16
   ```
+- setup the enzyme adapter in a file called `setupTest.js`, Jest will run this file before the other test files
+   ```javascript
+    import Enzyme, { shallow } from 'enzyme';
+    import EnzymeAdapter from 'enzyme-adapter-react-16';
 
-### Testing components with props 
-  - give initilal props to a component:
-     ```javascript
-     const defaultProps = { success: false}; /* initial props givin to component */
-    ```
-  - create a setup for creating a component copy, give the component initial props, with the optional arg to add new props
-  ```javascript
-   const setup = (props={}) => {
-      const setupProps = {...defaultProps, ...props}; /* can add new props to give to component (overwrites default props) */
-      return shallow(<Congrats { ...setupProps } />)
-    }
-   ```
-  - test the components with the props the same as default:
-    ```javascript
-    test('renders no text when success prop is false', () => {
-        const wrapper = setup({ success: false }); 
-        const component = findByTestAttr(wrapper, 'component-congrats');
-        expect(component.text()).toBe('');
+    Enzyme.configure({ 
+      adapter: new EnzymeAdapter(),
     });
     ```
-  - test the component with props given that are different from the defaultProps
-    ```javascript
-    test('renders non-empty congrats message when congrats message is true', () => {
-        const wrapper = setup({ success: true }); // test where props given are diff from default
-        const message = findByTestAttr(wrapper, 'congrats-message');
-        expect(message.text().length).not.toBe(0);
-    });
-    ```
-### testing propTypes
-  - maked sure there is no `propError` when rendering with propTypes
-  - if checking propTypes on multiple components, may want to put in a `testUtils.js` file
-    ```javascript
-    // testUtils.js
-    export const checkProps = (component, conformingProps) => {
-        const propError = checkPropTypes(
-            component.propTypes,
-            conformingProps,
-            'prop',
-            component.name
-        );
-        expect(propError).toBeUndefined();
-    }
-    ```
-  - testing the component:
-    ```javascript
-    import Componet from './Component.js'
+## Popular Tests
 
-    test('does not throw warning with expected props', () => {
-      const expectedProps = { success: false };
-      checkProps(Componet, expectedProps);
-    });
-    ```
-## Redux Testing
+### Renders Component 
+```javascript 
+import ComponentName from './ComponentFile Name'
 
-### Creating a Store Factory
-```javascript
-  import { createStore } from 'redux';
-
-  export const storeFactory = (initialState) => {
-    return createSotre (rootReducer, initialState);
-  }
+const wrapper = shallow(<ComponentName />
+const component = wrapper.find(`[data-test="VALUE"]`)
+assert(component.length).toBe(1);
 ```
 
-### Redux Props 
-
-### Testing Redux Props
-#### State
-- since a connected component is a higher order component, we need to render the child component to test it using`dive()`
+### Renders Component Props
+- give initilal props to a component:
+   ```javascript
+   const defaultProps = { success: false}; /* initial props givin to component */
+  ```
+- create a setup for creating a component copy, give the component initial props, with the optional arg to add new props
+```javascript
+ const setup = (props={}) => {
+    const setupProps = {...defaultProps, ...props}; /* can add new props to give to component (overwrites default props) */
+    return shallow(<Congrats { ...setupProps } />)
+  }
+ ```
+- test the component with props given that are different from the defaultProps
   ```javascript
-  const setup = (initialState={}) => {
-      const store = storeFactory(initialState);
-      const wrapper = shallow(<Input store={store}/>).dive();
-      return wrapper;
+  test('renders non-empty congrats message when congrats message is true', () => {
+      const wrapper = setup({ success: true }); // test where props given are diff from default
+      const message = findByTestAttr(wrapper, 'congrats-message');
+      expect(message.text().length).not.toBe(0);
+  });
+  ```
+- test the components with the props the same as default:
+  ```javascript
+  test('renders no text when success prop is false', () => {
+      const wrapper = setup({ success: false }); 
+      const component = findByTestAttr(wrapper, 'component-congrats');
+      expect(component.text()).toBe('');
+  });
+  ```
+
+### Checks Proptypes
+- maked sure there is no `propError` when rendering with propTypes
+- if checking propTypes on multiple components, may want to put in a `testUtils.js` file
+  ```javascript
+  // testUtils.js
+  export const checkProps = (component, conformingProps) => {
+      const propError = checkPropTypes(
+          component.propTypes,
+          conformingProps,
+          'prop',
+          component.name
+      );
+      expect(propError).toBeUndefined();
   }
   ```
-- use `instance().props` to grab redux props off of components
+- testing the component:
   ```javascript
-  test('has success piece of state as prop', () => {
-      const success = true;
-      const wrapper = setup({ success });
-      const successProp = wrapper.instance().props.success;
-      expect(successProp).toBe(success)
-  });
-  ```
-### Testing Reducers
-  ```javascript
-  import { actionTypes } from '../actions';
-  import successReducer from './successReducer';
+  import Componet from './Component.js'
 
-  test('returns default initial state of false when no action is passed', () => {
-      const newState = successReducer(undefined, {});
-      expect(newState).toBe(false);
-  });
-  test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
-      const newState = successReducer(undefined, {type: actionTypes.CORRECT_GUESS})
-      expect(newState).toBe(true);
+  test('does not throw warning with expected props', () => {
+    const expectedProps = { success: false };
+    checkProps(Componet, expectedProps);
   });
   ```
-### Redux Thunk: Testing Dispatchers within components
+
+### Renders Component Conditionally Based on State
+
+### Renders Text Conditionally Based on State
+```javascript
+test('renders no text when success prop is false', () => {
+    const wrapper = setup({ success: false });
+    const component = findByTestAttr(wrapper, 'component-congrats');
+    expect(component.text()).toBe('');
+});
+test('renders non-empty congrats message when congrats message is true', () => {
+    const wrapper = setup({ success: true });
+    const message = findByTestAttr(wrapper, 'congrats-message');
+    expect(message.text().length).not.toBe(0);
+});
+```
+### Redux Tests:
+
+#### Updates State When Action is Dispatched (Redux Thunk)
 - set up storeFactory with middleware
   ```javascript
   import { createStore, applyMiddleware } from 'redux';
@@ -295,46 +216,9 @@ const expectedState = { x }
 expect(newState).toEqual(expectedState);
 ```
 
-### Test Action Creator can make Async Requests
-- **moxios**: instead of looking at the HTTP response from Axios, looks at a hard coated response we get from testing 
-- install moxios and import into action creator file:
-  ```javascript
-  import moxios from 'moxios';
-  ```
-- also import the storeFactory acnd action creator
-  ```javascript
-  import { storeFactory } from '../test/testUtils';
-  import { getSecretWord } from './';
-  ```
-- install moxios before the test and uninstall after
-  ```javascript
-    beforeEach(() => {
-        moxios.install();
-    });
-    afterEach(() => {
-        moxios.uninstall();
-    });
-  ```
-- use `moxios.wait()` to wait for the response and give a response that has the same shape as the expected response:
-  ```javascript
-    moxios.wait(() => {
-        const request = moxios.requests.mostRecent();
-        request.respondWith({
-            status: 200,
-            response: secretWord 
-        });
-    });
-  ```
-- dispatch the action creator and see if store is appropriately updated:
-  ```javscript
-  return store.dispatch(getSecretWord())
-      .then(() => {
-          const newState = store.getState();
-          expect(newState.secretWord).toBe(secretWord);
-      });
-  ```
 
-### Testing if Action Creators Run on Submit
+#### Action is Dispatched When User Submits
+- in component where user submits: `componentName.test.js`
 - export the unconccected component (still export the connected component by default)
     ```javascript
     export class UnconnectedInput extends Component { }
@@ -393,8 +277,7 @@ expect(newState).toEqual(expectedState);
       expect(wrapper.instance().inputBox.current.value).toBe('');
   })
   ```
-
-### Testing if Action Creators Run on Submit
+### Action is Dispatched When Component is Mount
 - in `setupTest.js` disable lifeCycleMethods to prevent componentDidMount from running in the actual component
     ```javascript
     Enzyme.configure({ 
@@ -426,3 +309,144 @@ expect(newState).toEqual(expectedState);
 
   expect(getSecretWordCallCount).toBe(1);
   ```
+
+#### Component Has Access to Redux Props - State
+- since a connected component is a higher order component, we need to render the child component to test it using`dive()`
+  ```javascript
+  const setup = (initialState={}) => {
+      const store = storeFactory(initialState);
+      const wrapper = shallow(<Input store={store}/>).dive();
+      return wrapper;
+  }
+  ```
+- use `instance().props` to grab redux props off of components
+  ```javascript
+  test('has success piece of state as prop', () => {
+      const success = true;
+      const wrapper = setup({ success });
+      const successProp = wrapper.instance().props.success;
+      expect(successProp).toBe(success)
+  });
+  ```
+#### Component Has Access to Redux Props - ActionCreator
+```
+const setup = (initialState={}) => {
+    const store = storeFactory(initialState);
+    const wrapper = shallow(<Input store={store}/>).dive();
+    return wrapper;
+}
+
+setup();
+
+test('guessword action creator is a function prop', () => {
+    const wrapper = setup();
+    const successProp = wrapper.instance().props.guessWord;
+    expect(successProp).toBeInstanceOf(Function);
+})
+```
+
+#### Reducer Returns Correct State Depending on if Action is Passed
+```javascript
+  ```javascript
+  import { actionTypes } from '../actions';
+  import successReducer from './successReducer';
+
+  test('returns default initial state of false when no action is passed', () => {
+      const newState = successReducer(undefined, {});
+      expect(newState).toBe(false);
+  });
+  test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
+      const newState = successReducer(undefined, {type: actionTypes.CORRECT_GUESS})
+      expect(newState).toBe(true);
+  });
+  ```
+#### Action Creator Updates State When Dispatched 
+- tests the action - `action/index.test.js`
+- **moxios**: instead of looking at the HTTP response from Axios, looks at a hard coated response we get from testing 
+- install moxios and import into action creator file:
+  ```javascript
+  import moxios from 'moxios';
+  ```
+- also import the storeFactory acnd action creator
+  ```javascript
+  import { storeFactory } from '../test/testUtils';
+  import { getSecretWord } from './';
+  ```
+- install moxios before the test and uninstall after
+  ```javascript
+    beforeEach(() => {
+        moxios.install();
+    });
+    afterEach(() => {
+        moxios.uninstall();
+    });
+  ```
+- use `moxios.wait()` to wait for the response and give a response that has the same shape as the expected response:
+  ```javascript
+    moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+            status: 200,
+            response: secretWord 
+        });
+    });
+  ```
+- dispatch the action creator and see if store is appropriately updated:
+  ```javscript
+  return store.dispatch(getSecretWord())
+      .then(() => {
+          const newState = store.getState();
+          expect(newState.secretWord).toBe(secretWord);
+      });
+  ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### checking text of a component 
+  ```javascript
+    import ComponentName from './ComponentFile Name'
+
+    const wrapper = shallow(<ComponentName />
+    const component = wrapper.find(`[data-test="${val}"]`)
+    expect(component.text()).toBe('');
+  ```
+
+
+
+
+
+## Redux Testing
+
+### Creating a Store Factory
+```javascript
+  import { createStore } from 'redux';
+
+  export const storeFactory = (initialState) => {
+    return createSotre (rootReducer, initialState);
+  }
+```
+
+
+
+
+
+
+
+
+
+
