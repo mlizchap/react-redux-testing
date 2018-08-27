@@ -353,19 +353,18 @@
 #### Reducer Returns Correct State Depending on if Action is Passed
 - in `reducers/reducerName.test.js`
   ```javascript
-    ```javascript
-    import { actionTypes } from '../actions';
-    import successReducer from './successReducer';
+  import { actionTypes } from '../actions';
+  import successReducer from './successReducer';
 
-    test('returns default initial state of false when no action is passed', () => {
-        const newState = successReducer(undefined, {});
-        expect(newState).toBe(false);
-    });
-    test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
-        const newState = successReducer(undefined, {type: actionTypes.CORRECT_GUESS})
-        expect(newState).toBe(true);
-    });
-    ```
+  test('returns default initial state of false when no action is passed', () => {
+      const newState = successReducer(undefined, {});
+      expect(newState).toBe(false);
+  });
+  test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
+      const newState = successReducer(undefined, {type: actionTypes.CORRECT_GUESS})
+      expect(newState).toBe(true);
+  });
+  ```
 #### Action Creator Updates State When Dispatched 
 - tests the action - `action/index.test.js`
 - **moxios**: instead of looking at the HTTP response from Axios, looks at a hard coated response we get from testing 
