@@ -22,15 +22,18 @@
     - Action Creator Updates State When Dispatched 
 
 ## Overview
-- **Unit**: Tests one piece (usually 1 function)
-- **Integration**:  Tests how multiple units work together
-- **End-to-End**: Tests how a user would interact with the app
-- **Snapshot**: Freezes a component and future output is compared against it, fails if there are changes
+- BDD - Behavior Driven Development: focuses on the behavior of the app
+- TDD - Test Deiven Development: a method of writing tests before writing the app
 
-- **BDD** - Behavior Driven Development - focuses on the behavior of the app
+### Types of Tests
+- Unit Testing: Tests one piece (usually 1 function)
+- Integration Testing:  Tests how multiple units work together
+- End-to-End Testing: Tests how a user would interact with the app
+- Snapshot Testing: Freezes a component and future output is compared against it, fails if there are changes
 
-- **Jest**:
-- **Enzyme**: creates a virtual DOM for testing and allows access to props and state to test for values 
+### Tools:
+- Jest:
+- Enzyme: creates a virtual DOM for testing and allows access to props and state to test for values 
 
 
 ## Jest
@@ -49,11 +52,27 @@
   }
   ```
 
-- beforeEach()
+- beforeEach() and afterEach()
+  - functions that run before and after tests are written, written inside the describe block
+    ```javascript
+    describe('description of group of test', () => {
+      beforeEach(() => {
+          // do something before each test
+      });
+      afterEach(() => {
+          // do something after each test
+      });
+      test("test #1 description") {
+        /*...*/
+      }
+      test("test #2 description") {
+        /*...*/
+      }
+    }
+  ```
 
-- afterEach()
+- jest.fn(): creates a mock function
 
-- jest.fn(): creates a mock functions
 ## Enzyme
 ### Enzyme Functions:
 - **rendering components** by creating a wrapper:
