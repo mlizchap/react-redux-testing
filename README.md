@@ -238,9 +238,9 @@
 #### Action is Dispatched When User Submits
 - in component where user submits: `componentName.test.js`
 - export the unconccected component (still export the connected component by default)
-    ```javascript
-    export class UnconnectedInput extends Component { }
-    ```
+  ```javascript
+  export class UnconnectedInput extends Component { }
+  ```
 - import and test the unconnected component
   ```javascript
   import { UnconnectedInput } './Input';
