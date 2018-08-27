@@ -93,18 +93,27 @@
   ```
 
  - Testing components with props 
-   ```javascript
-   const defaultProps = { success: false}; /* initial props givin to component */
-
+  - give initilal props to a component:
+     ```javascript
+     const defaultProps = { success: false}; /* initial props givin to component */
+    ```
+  - create a setup for creating a component copy, give the component initial props, with the optional arg to add new props
+  ```javascript
    const setup = (props={}) => {
       const setupProps = {...defaultProps, ...props}; /* can add new props to give to component (overwrites default props) */
       return shallow(<Congrats { ...setupProps } />)
     }
+   ```
+  - test the components with the props the same as default:
+    ```javascript
     test('renders no text when success prop is false', () => {
-        const wrapper = setup({ success: false }); // test where props given are the same as default
+        const wrapper = setup({ success: false }); 
         const component = findByTestAttr(wrapper, 'component-congrats');
         expect(component.text()).toBe('');
     });
+    ```
+  - test the component with props given that are different from the defaultProps
+    ```javascript
     test('renders non-empty congrats message when congrats message is true', () => {
         const wrapper = setup({ success: true }); // test where props given are diff from default
         const message = findByTestAttr(wrapper, 'congrats-message');
@@ -114,19 +123,20 @@
 - testing propTypes
   - maked sure there is no `propError` when rendering with propTypes
   - if checking propTypes on multiple components, may want to put in a `testUtils.js` file
+    ```javascript
+    // testUtils.js
+    export const checkProps = (component, conformingProps) => {
+        const propError = checkPropTypes(
+            component.propTypes,
+            conformingProps,
+            'prop',
+            component.name
+        );
+        expect(propError).toBeUndefined();
+    }
+  ```
+  - testing the component:
   ```javascript
-  // testUtils.js
-  export const checkProps = (component, conformingProps) => {
-      const propError = checkPropTypes(
-          component.propTypes,
-          conformingProps,
-          'prop',
-          component.name
-      );
-      expect(propError).toBeUndefined();
-  }
-  
-  // test file
   import Componet from './Component.js'
   
   test('does not throw warning with expected props', () => {
