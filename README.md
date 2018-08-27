@@ -341,13 +341,13 @@ expect(newState).toEqual(expectedState);
     ```
  - create a mock function and create props with the mock funciton
    ```javascript
-   const getSecretWordMock = jest.fn();
+    const getSecretWordMock = jest.fn();
 
-  const props = {
+    const props = {
       getSecretWord: getSecretWordMock,
       success: false,
       guessedWords: []
-  }
+    }
   ```
 - set uo component with the mock function as the prop
   ```javascript
