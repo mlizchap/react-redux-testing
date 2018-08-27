@@ -48,6 +48,8 @@
 
 - afterEach()
 
+- jest.fn(): creates a mock functions
+
 ## Enzyme Functions:
 - **rendering components** by creating a wrapper:
   - **shallow**: renders component only 1 level deep; renders parent but uses placeholders for children 
@@ -66,6 +68,14 @@
   wrapper.find('ELEM_NAME');
   wrapper.find('.CLASS_NAME');
   wrapper.find('#ID_NAME');
+  ```
+- **.toBe()**:
+
+- **.toEqaul()**
+
+- **.isnstance()**: renders an instance of a component where you can pull of props 
+  ```javsacript
+  wrapper.instance().props
   ```
 
 
@@ -141,3 +151,215 @@
     });
     ```
 ## Redux Testing
+
+### Creating a Store Factory
+```javascript
+  import { createStore } from 'redux';
+
+  export const storeFactory = (initialState) => {
+    return createSotre (rootReducer, initialState);
+  }
+```
+
+### Redux Props 
+
+### Testing Redux Props
+#### State
+- since a connected component is a higher order component, we need to render the child component to test it using`dive()`
+  ```javascript
+  const setup = (initialState={}) => {
+      const store = storeFactory(initialState);
+      const wrapper = shallow(<Input store={store}/>).dive();
+      return wrapper;
+  }
+  ```
+- use `instance().props` to grab redux props off of components
+  ```javascript
+  test('has success piece of state as prop', () => {
+      const success = true;
+      const wrapper = setup({ success });
+      const successProp = wrapper.instance().props.success;
+      expect(successProp).toBe(success)
+  });
+  ```
+### Testing Reducers
+  ```javascript
+  import { actionTypes } from '../actions';
+  import successReducer from './successReducer';
+
+  test('returns default initial state of false when no action is passed', () => {
+      const newState = successReducer(undefined, {});
+      expect(newState).toBe(false);
+  });
+  test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
+      const newState = successReducer(undefined, {type: actionTypes.CORRECT_GUESS})
+      expect(newState).toBe(true);
+  });
+  ```
+### Redux Thunk: Testing Dispatchers within components
+- set up storeFactory with middleware
+  ```javascript
+  import { createStore, applyMiddleware } from 'redux';
+  import rootReducer from './reducers';
+  import ReduxThunk from 'redux-thunk';
+
+  export const middlewares = [ReduxThunk];
+  const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore)
+
+  export default createStoreWithMiddleware(rootReducer);
+  ```
+- in the test file, import the store and before each test create a store with the initial state;
+  ```javascript
+  describe('no guessed words', () => {
+      let store;
+      const initialState = { secretWord };
+      beforeEach(() => {
+          store = storeFactory(initialState);
+      });
+      test('update state correctly for unsuccessful guess', () => { 
+        /* ... */
+      }
+  }
+  ```
+- dispatch the action creator with `store.dispatch()` and get the state with `store.getState()`
+  ```javascript
+  store.dispatch(guessWord(unsuccessfulGuess));
+  const newState = store.getState();
+  ```
+- assert that the new state is what we expected
+```javascript
+const expectedState = { x }
+expect(newState).toEqual(expectedState);
+```
+
+### Test Action Creator can make Async Requests
+- **moxios**: instead of looking at the HTTP response from Axios, looks at a hard coated response we get from testing 
+- install moxios and import into action creator file:
+  ```javascript
+  import moxios from 'moxios';
+  ```
+- also import the storeFactory acnd action creator
+  ```javascript
+  import { storeFactory } from '../test/testUtils';
+  import { getSecretWord } from './';
+  ```
+- install moxios before the test and uninstall after
+  ```javascript
+    beforeEach(() => {
+        moxios.install();
+    });
+    afterEach(() => {
+        moxios.uninstall();
+    });
+  ```
+- use `moxios.wait()` to wait for the response and give a response that has the same shape as the expected response:
+  ```javascript
+    moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+            status: 200,
+            response: secretWord 
+        });
+    });
+  ```
+- dispatch the action creator and see if store is appropriately updated:
+  ```javscript
+  return store.dispatch(getSecretWord())
+      .then(() => {
+          const newState = store.getState();
+          expect(newState.secretWord).toBe(secretWord);
+      });
+  ```
+
+### Testing if Action Creators Run on Submit
+- export the unconccected component (still export the connected component by default)
+    ```javascript
+    export class UnconnectedInput extends Component { }
+    ```
+- import and test the unconnected component
+  ```javascript
+  import { UnconnectedInput } './Input';
+  
+  wrapper = shallow(<UnconnectedInput {...props} />);
+  ```
+- before the test runs:
+  - set up a mock function for the action creator
+    ```javascript
+    describe('guessword action creator call', () => {
+      let guessWordMock;
+      let wrapper;
+      const guessedWord = 'train';
+      beforeEach(() => {
+          // set up mock for guess word 
+          guessWordMock = jest.fn();
+          const props = {
+              guessWord: guessWordMock
+          };
+    ```
+  - set up the unconnected component with the mock fn just created 
+    ```javascript
+     wrapper = shallow(<UnconnectedInput {...props} />);
+    ```
+  - add value to the input 
+    ```javascript
+    wrapper.instance().inputBox.current = { value: guessedWord };
+    ```
+  - simulate a click
+    ```javascript
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    submitButton.simulate('click', { preventDefault() {} });
+    ```
+- test that the action is called
+  ```javascript
+  test('calls guessword when button is clicked', () => {
+      // check to see if mock ran once 
+      const guessWordCallCount = guessWordMock.mock.calls.length;
+      expect(guessWordCallCount).toBe(1);
+  })
+  ```
+- testing that the action is called on the right arg
+  ```javascript
+  test('calls guessWord with input value as an arguement', () => {
+      const guessedWordArg = guessWordMock.mock.calls[0][0];
+      expect(guessedWordArg).toBe(guessedWord);
+  })
+```
+- testing that the input box clears on submit
+  ```javascript
+  test('input box clears on submit', () => {
+      expect(wrapper.instance().inputBox.current.value).toBe('');
+  })
+  ```
+
+### Testing if Action Creators Run on Submit
+- in `setupTest.js` disable lifeCycleMethods to prevent componentDidMount from running in the actual component
+    ```javascript
+    Enzyme.configure({ 
+        adapter: new EnzymeAdapter(),
+        disableLifecycleMethods: true,
+    });
+    ```
+ - create a mock function and create props with the mock funciton
+   ```javascript
+   const getSecretWordMock = jest.fn();
+
+  const props = {
+      getSecretWord: getSecretWordMock,
+      success: false,
+      guessedWords: []
+  }
+  ```
+- set uo component with the mock function as the prop
+  ```javascript
+  const wrapper = shallow(<UnconnectedApp {...props} />)
+  ```
+- run the lifecycle method
+  ```javascript
+  wrapper.instance().componentDidMount();
+  ```
+- assert if the mock function ran
+  ```javascript
+  const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
+
+  expect(getSecretWordCallCount).toBe(1);
+  ```
