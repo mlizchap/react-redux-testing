@@ -15,7 +15,7 @@
     - [Action is Dispatched When User Submits](#action-is-dispatched-when-user-submits)
     - [Action is Dispatched When Component is Mount](#action-is-dispatched-when-component-is-mount)
     - [Component Has Access to Redux Props - State](#component-has-access-to-redux-state-props)
-    - [Component Has Access to Redux Props - ActionCreator](#component-has-access-to-redux-actioncreator-Props)
+    - [Component Has Access to Redux Props - ActionCreator](#component-has-access-to-redux-actioncreator-props)
     - [Reducer Returns Correct State Depending on if Action is Passed](#reducer-returns-correct-state-depending-on-if-action-is-passed)
     - [Action Creator Updates State When Dispatched](#action-creator-updates-state-when-dispatched )
 
@@ -197,7 +197,7 @@
   ```
 ### Redux Tests:
 
-#### Updates State When Action is Dispatched (Redux Thunk)
+#### Updates State When Action is Dispatched 
 - tests both the action and reducers - an integration test -`integeration.test.js` 
 - store factory: a function that returns a store that will provide a store for testing purposes
 - set up storeFactory with middleware in `test/testUtils.js`
