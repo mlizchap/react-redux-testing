@@ -67,7 +67,7 @@
         /*...*/
       }
     }
-  ```
+    ```
   
 - **.toBe()**: checks the values of what you would expect
 
