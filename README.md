@@ -75,7 +75,7 @@
 
 ## Popular Tests: 
 
-- testing if a component exists:
+### testing if a component exists:
     ```javascript 
     import ComponentName from './ComponentFile Name'
 
@@ -83,7 +83,7 @@
     const component = wrapper.find(`[data-test="${val}"]`)
     assert(component.length).toBe(1);
     ```
-- checking text of a component 
+### checking text of a component 
   ```javascript
     import ComponentName from './ComponentFile Name'
 
@@ -92,7 +92,7 @@
     expect(component.text()).toBe('');
   ```
 
- - Testing components with props 
+### Testing components with props 
   - give initilal props to a component:
      ```javascript
      const defaultProps = { success: false}; /* initial props givin to component */
@@ -120,7 +120,7 @@
         expect(message.text().length).not.toBe(0);
     });
     ```
-- testing propTypes
+### testing propTypes
   - maked sure there is no `propError` when rendering with propTypes
   - if checking propTypes on multiple components, may want to put in a `testUtils.js` file
     ```javascript
