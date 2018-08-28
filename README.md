@@ -133,7 +133,7 @@
 ### Renders Component 
 - 'in `componentName.test.js`
   ```javascript 
-  import Enzyme from 'enzyme';
+  import { shallow } from 'enzyme';
   import ComponentName from './ComponentFile Name'
 
   test('renders component to page') {
