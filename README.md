@@ -138,7 +138,7 @@
 
   const wrapper = shallow(<ComponentName />
   const component = wrapper.find(`[data-test="VALUE"]`)
-  assert(component.length).toBe(1);
+  expect(component.length).toBe(1);
   ```
 
 ### Renders Component Props
