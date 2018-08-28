@@ -119,9 +119,9 @@
   ```javascript
   $ npm install --save jest enzyme enzyme-adapter-react-16
   ```
-- setup the enzyme adapter in a file called `setupTest.js`, Jest will run this file before the other test files
+- setup the enzyme adapter in a file called `setupTests.js`, Jest will run this file before the other test files
    ```javascript
-    import Enzyme, { shallow } from 'enzyme';
+    import Enzyme from 'enzyme';
     import EnzymeAdapter from 'enzyme-adapter-react-16';
 
     Enzyme.configure({ 
@@ -133,6 +133,7 @@
 ### Renders Component 
 - 'in `componentName.test.js`
   ```javascript 
+  import Enzyme from 'enzyme';
   import ComponentName from './ComponentFile Name'
 
   const wrapper = shallow(<ComponentName />
