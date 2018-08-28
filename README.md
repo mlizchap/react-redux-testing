@@ -136,9 +136,11 @@
   import Enzyme from 'enzyme';
   import ComponentName from './ComponentFile Name'
 
-  const wrapper = shallow(<ComponentName />
-  const component = wrapper.find(`[data-test="VALUE"]`)
-  expect(component.length).toBe(1);
+  test('renders component to page') {
+    const wrapper = shallow(<ComponentName />
+    const component = wrapper.find(`[data-test="VALUE"]`)
+    expect(component.length).toBe(1);
+  }
   ```
 
 ### Renders Component Props
