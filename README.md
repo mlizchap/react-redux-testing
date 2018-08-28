@@ -1,6 +1,5 @@
 # react-redux-testing
 
-
 ## TOC
 - [Overview](#overview)
 - [Jest](#jest)
