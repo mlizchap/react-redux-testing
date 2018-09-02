@@ -114,9 +114,9 @@
   ```
 
 ## Setup
-- install jest, enyzme, and the enzyme adapter 
+- install jest, enyzme, and the enzyme adapter (create-react-app comes with jest)
   ```javascript
-  $ npm install --save jest enzyme enzyme-adapter-react-16
+  $ npm install --save enzyme enzyme-adapter-react-16
   ```
 - setup the enzyme adapter in a file called `setupTests.js`, Jest will run this file before the other test files
    ```javascript
