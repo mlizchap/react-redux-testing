@@ -127,23 +127,28 @@
       adapter: new EnzymeAdapter(),
     });
     ```
-## Popular Tests
+## Basic Tests
+- import react, the shallow/mount functions from enzyme, and the component you are testing
+  ```javascript
+  import React from 'react';
+  import { mount } from 'enzyme';
+  import ComponentName from './ComponentFile Name'
+  ```
+- use the mount or shallow function to create a wrapper component to perform tests on 
+  ```javascript
+  const wrapper = shallow(<ComponentName />
+  ```
 
-### Renders Component 
+#### Renders Component 
 - 'in `componentName.test.js`
   ```javascript 
-  import { shallow } from 'enzyme';
-  import ComponentName from './ComponentFile Name'
-
   test('renders component to page') {
-    const wrapper = shallow(<ComponentName />
-    const component = wrapper.find(`[data-test="VALUE"]`)
+    const component = wrapper.find(`.COMPONENT_NAME`)
     expect(component.length).toBe(1);
   }
   ```
 
-### Renders Component Props
-- in `componentName.test.js`
+#### Renders Component Props
 - give initilal props to a component:
    ```javascript
    const defaultProps = { success: false};
@@ -172,31 +177,48 @@
   });
   ```
 
-### Checks Proptypes
+#### Checks Proptypes
 - maked sure there is no `propError` when rendering with propTypes
-- if checking propTypes on multiple components, may want to put in a `testUtils.js` file
-  - (in `test/testUtils.js`)
   ```javascript
-  export const checkProps = (component, conformingProps) => {
       const propError = checkPropTypes(
-          component.propTypes,
+          Component.propTypes,
           conformingProps,
           'prop',
-          component.name
+          Component.name
       );
       expect(propError).toBeUndefined();
   }
   ```
-- testing the component:
-  - in `componentName.test.js`
+### React Router Tests:
+- import the `MemoryRouter` component from react-router-dom 
   ```javascript
-  import componentName from './Component.js'
-
-  test('does not throw warning with expected props', () => {
-    const expectedProps = { success: false };
-    checkProps(componentName, expectedProps);
-  });
+  import { MemoryRouter } from 'react-router';
   ```
+#### Links
+- wrapp the app component in a `MemoryRouter` tag 
+  ```javascript
+  const wrapper = mount(
+      <MemoryRouter>
+          <App/>
+      </MemoryRouter>
+  );
+  ```
+ - find the link item you will click and simulate a click event, make the default not a button
+  ```javascript
+  const componentLink = wrapper.find('li');
+  console.log("LINK", componentLink.debug())
+  componentLink.simulate('click', { button: 0 });
+  ```
+- find the component you expect to be rendered to the screen when the link is clicked and test it exists
+  ```javascript
+  const componentClicked = wrapper.find(component);
+  expect(componentClicked.length).toBe(1);
+  ```
+
+#### URL Paths 
+- wrap the app component in an 
+
+
 ### Redux Tests:
 
 #### Updates State When Action is Dispatched 
