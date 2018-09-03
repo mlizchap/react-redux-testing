@@ -29,7 +29,7 @@
 - Snapshot Testing: Freezes a component and future output is compared against it, fails if there are changes
 
 ### Tools:
-- Jest:
+- Jest: tests Javascript
 - Enzyme: creates a virtual DOM for testing and allows access to props and state to test for values 
 
 
@@ -37,7 +37,7 @@
 ### Jest Functions
 - **test()**: a singular test in Jest
  ```javacript
-  
+ test("testdescription") {}
  ```
 
 - **describe()**: can group multiplue tests together
@@ -58,31 +58,36 @@
     }
     ```
   
-- **.toBe()**: checks the values of what you would expect
+- to chaeck if values are equal: 
+  ```javacsript
+  expect(value1).toBe(value2);
+  ```
+- to test if two objects have the same value
+  ```javascript
+  expect(obj1).toequal(obj2)l
+  ```
 
-- **.toEqaul()**: use when you want to check two objects have the same value
-
-- **jest.fn()**: creates a mock function
+- reates a mock function
+  ```javascript
+  const mockFn = jest.fn();
+  ```
 
 ## Enzyme
 ### Enzyme Functions:
-- **rendering components** by creating a wrapper:
+- **rendering components**:
   - **Shallow Render** (1 level deep)
-    ```
+    ```javascript
     import Enzyme, { shallow } from 'enzyme';
-
     const wrapper = shallow(<ComponentName />
     ```
   - **Full DOM Render**
     ```javascript
     import { mount } from 'enzyme';
-
     const wrapper = mount(<ComponentName />);
     ```
   
 - **debugging**
   ```javascript
-  const wrapper = shallow(<ComponentName />
   wrapper.debug()
   ```
 
@@ -109,9 +114,12 @@
   ```
 
 - **Setting State**
+  ```javascript
+  wraper.setState({value: 'x'});
+  ```
 
-## Setup
-- install jest, enyzme, and the enzyme adapter (create-react-app comes with jest)
+## Enzyme Setup
+- install enyzme and the enzyme adapter 
   ```javascript
   $ npm install --save enzyme enzyme-adapter-react-16
   ```
@@ -143,7 +151,7 @@
     expect(component.length).toBe(1);
   ```
   
-#### Conditional Rendering Based on State
+#### State
 - give no initial state and make sure component is not rendered 
   ```javascript
   wrapper.setState({ todos: [] });
@@ -156,7 +164,7 @@
   const todos = wrapper.find('.list__item');
   expect(todos.length).toBe(2);
   ```
-#### Conditional Rendering Based on Props
+#### Props
 - give initilal props to a component:
    ```javascript
    const defaultProps = { success: false};
@@ -184,6 +192,15 @@
       expect(message.text().length).not.toBe(0);
   });
   ```
+  
+### Style
+    ```javascript
+    wrapper.setState({ todos: [{name: 'thing 1', completed: true}] })
+    const todoItem = wrapper.find('.list__item');
+    todoItem.simulate('click');
+    expect(wrapper.find('.list__item').get(0).props.style.textDecoration).toBe('none');
+    ```
+    
 #### Input Submit 
 ```javascript
     const userInput = 'abc';
@@ -234,8 +251,18 @@
   ```
 
 #### URL Paths 
-- wrap the app component in an 
-
+- wrap the app component in a Memory Router and give an initial route entry
+  ```javascript
+      const wrapper = mount(
+          <MemoryRouter>
+              <App/>
+          </MemoryRouter>
+      );
+  ```
+- find the component and make sure it exists
+  ```javascript
+  xpect(wrapper.find(component).length).toBe(1);
+  ```
 
 ### Redux Tests:
 
