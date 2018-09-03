@@ -35,36 +35,26 @@
 
 ## Jest
 ### Jest Functions
-- **test()**
+- **test()**: a singular test in Jest
+ ```javacript
+  
+ ```
 
 - **describe()**: can group multiplue tests together
   ```javascript
   describe("description of group of test") {
-    test("test #1 description") {
-      /*...*/
-    }
-    test("test #2 description") {
-      /*...*/
-    }
-  }
+    test("test #1 description") { }    
+    test("test #2 description") { }
+  }    
   ```
 
 - **beforeEach()** and **afterEach()**
   - functions that run before and after tests are written, written inside the describe block
     ```javascript
     describe('description of group of test', () => {
-      beforeEach(() => {
-          // do something before each test
-      });
-      afterEach(() => {
-          // do something after each test
-      });
-      test("test #1 description") {
-        /*...*/
-      }
-      test("test #2 description") {
-        /*...*/
-      }
+      beforeEach(() => { }); // do something before each test
+      afterEach(() => {  }); // do something after each test
+      // tests are written here
     }
     ```
   
@@ -112,6 +102,8 @@
   ```javascript
   wrapper.simulate("click")
   ```
+  
+- **.setState(state)**; gives component innitial state
 
 ## Setup
 - install jest, enyzme, and the enzyme adapter (create-react-app comes with jest)
@@ -136,19 +128,30 @@
   ```
 - use the mount or shallow function to create a wrapper component to perform tests on 
   ```javascript
-  const wrapper = shallow(<ComponentName />
+  const wrapper = shallow(<ComponentName />);
   ```
 
 #### Renders Component 
 - 'in `componentName.test.js`
   ```javascript 
-  test('renders component to page') {
     const component = wrapper.find(`.COMPONENT_NAME`)
     expect(component.length).toBe(1);
-  }
   ```
-
-#### Renders Component Props
+  
+#### Conditional Rendering Based on State
+- give no initial state and make sure component is not rendered 
+  ```javascript
+  wrapper.setState({ todos: [] });
+  const todos = wrapper.find('.list__item');
+  expect(todos.length).toBe(0);
+  ```
+- give some initiual state and make sure
+  ```javascript
+  wrapper.setState({ todos: [{name: 'thing 1', completed: false}, {name: 'thing 2', completed: false}]});
+  const todos = wrapper.find('.list__item');
+  expect(todos.length).toBe(2);
+  ```
+#### Conditional Rendering Based on Props
 - give initilal props to a component:
    ```javascript
    const defaultProps = { success: false};
