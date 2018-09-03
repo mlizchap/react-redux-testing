@@ -185,12 +185,12 @@
   ```
   
 ### Style
-    ```javascript
-    wrapper.setState({ todos: [{name: 'thing 1', completed: true}] })
-    const todoItem = wrapper.find('.list__item');
-    todoItem.simulate('click');
-    expect(wrapper.find('.list__item').get(0).props.style.textDecoration).toBe('none');
-    ```
+ ```javascript
+ wrapper.setState({ todos: [{name: 'thing 1', completed: true}] })
+ const todoItem = wrapper.find('.list__item');
+ todoItem.simulate('click');
+ expect(wrapper.find('.list__item').get(0).props.style.textDecoration).toBe('none');
+ ```
     
 #### Input Submit 
 ```javascript
