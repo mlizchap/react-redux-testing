@@ -67,43 +67,48 @@
 ## Enzyme
 ### Enzyme Functions:
 - **rendering components** by creating a wrapper:
-  - **shallow**: renders component only 1 level deep; renders parent but uses placeholders for children 
+  - **Shallow Render** (1 level deep)
     ```
     import Enzyme, { shallow } from 'enzyme';
 
     const wrapper = shallow(<ComponentName />
     ```
-  - **mount**: renders the full DOM API
+  - **Full DOM Render**
     ```javascript
     import { mount } from 'enzyme';
 
     const wrapper = mount(<ComponentName />);
     ```
   
-- **.debug()**: logs the html of the component
+- **debugging**
   ```javascript
   const wrapper = shallow(<ComponentName />
   wrapper.debug()
   ```
 
-- **.find()** : finds a component.  Can be by className, id, element or attribute.
+- **Finding a component**
   ```javascript
   wrapper.find('[data-test="ATTRIB_NAME"]');
   wrapper.find('ELEM_NAME');
   wrapper.find('.CLASS_NAME');
   wrapper.find('#ID_NAME');
   ```
-- **.isnstance()**: renders an instance of a component where you can pull of props 
+- **Creating a component instance and grabbing props**
   ```javsacript
   wrapper.instance().props
   ```
 
-- **.simulate(eventName)**: simulates events
+- **Simulate a click**
   ```javascript
   wrapper.simulate("click")
   ```
-  
-- **.setState(state)**; gives component innitial state
+ 
+- **Simulate input change** 
+  ```javascript
+  input.simulate('change', { target: { value: userInput }});
+  ```
+
+- **Setting State**
 
 ## Setup
 - install jest, enyzme, and the enzyme adapter (create-react-app comes with jest)
@@ -179,7 +184,17 @@
       expect(message.text().length).not.toBe(0);
   });
   ```
-
+#### Input Submit 
+```javascript
+    const userInput = 'abc';
+    const input = wrapper.find('.form__input');
+    input.simulate('change', { target: { value: userInput }});
+    wrapper.find('.form').simulate('submit');
+    const listItem = wrapper.find('.list__item');
+    
+    expect(wrapper.state().todos[0].name).toBe(userInput);
+    expect(listItem.text()).toBe(userInput)
+```
 #### Checks Proptypes
 - maked sure there is no `propError` when rendering with propTypes
   ```javascript
