@@ -5,8 +5,15 @@
 - [Jest](#jest)
 - [Enzyme](#enzyme)
 - [Setup](#setup)
-- [Basic Tests]
-- [Routing Tests]
+- [Basic Tests](#basic-tests)
+ - [Renders Component](#renders-component)
+ - [State](#state)
+ - [Props](#props)
+ - [Style](#style)
+ - [Check Proptypes](#check-proptypes)
+- [Routing Tests](#react-router-tests)
+ -[Links](#links)
+ -[URL Tests](#url-tests)
 - [Redux Tests]
 
 ## Overview
@@ -184,7 +191,7 @@
   });
   ```
   
-### Style
+#### Style
  ```javascript
  expect(wrapper.find('.list__item').get(0).props.style.textDecoration).toBe('none');
  ```
