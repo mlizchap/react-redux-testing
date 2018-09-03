@@ -13,7 +13,7 @@
   - [Check Proptypes](#check-proptypes)
 - [Routing Tests](#react-router-tests)
   - [Links](#links)
-  - [URL Tests](#url-tests)
+  - [URL Tests](#url-paths)
 - [Redux Tests]
 
 ## Overview
