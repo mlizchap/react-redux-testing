@@ -4,7 +4,7 @@
 - [Overview](#overview)
 - [Jest](#jest)
 - [Enzyme](#enzyme)
-- [Setup](#setup)
+- [Enzyme Setup](#enzyme-setup)
 - [Basic Tests](#basic-tests)
   - [Renders Component](#renders-component)
   - [State](#state)
@@ -12,8 +12,8 @@
   - [Style](#style)
   - [Check Proptypes](#check-proptypes)
 - [Routing Tests](#react-router-tests)
-  -[Links](#links)
-  -[URL Tests](#url-tests)
+  - [Links](#links)
+  - [URL Tests](#url-tests)
 - [Redux Tests]
 
 ## Overview
