@@ -261,6 +261,7 @@
   ```
 
 ### Redux Tests:
+#### The Store
 - create a **store factory**: a function that returns a store that will provide a store for testing purposes
   ```javascript
   // testUtils.js
@@ -283,33 +284,23 @@
       return createStoreWithMiddleWare(rootReducer, initialState);
   }
   ```
-
-
-#### Updates State When Action is Dispatched 
-- in the test file, import the store and before each test create a store with the initial state;
+- using the store in the component
   ```javascript
-  describe('no guessed words', () => {
-      let store;
-      const initialState = { secretWord };
-      beforeEach(() => {
-          store = storeFactory(initialState);
-      });
-      test('update state correctly for unsuccessful guess', () => { 
-        /* ... */
-      }
-  }
-  ```
-- dispatch the action creator with `store.dispatch()` and get the state with `store.getState()`
-  ```javascript
-  store.dispatch(guessWord(unsuccessfulGuess));
-  const newState = store.getState();
-  ```
-- assert that the new state is what we expected
-  ```javascript
-  const expectedState = { x }
-  expect(newState).toEqual(expectedState);
-  ```
+  import { storeFactory } from '../testUtils';
+  import App from './App';
 
+  /* ... */
+  const store = storeFactory();
+  const wrapper = mount(<App store={store} />
+  ```
+- dispatching an action
+  ```javascript
+  store.dispatch({type: 'CREATE_USER', payload: newUser});
+  ```
+- getting the state 
+  ```javascript
+  const state = store.getState();
+  ```
 #### Action is Dispatched When User Submits
 - in component where user submits: `componentName.test.js`
 - export the unconccected component (still export the connected component by default)
