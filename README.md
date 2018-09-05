@@ -123,6 +123,7 @@
   ```
 - setup the enzyme adapter in a file called `setupTests.js`, Jest will run this file before the other test files
    ```javascript
+   
     import Enzyme from 'enzyme';
     import EnzymeAdapter from 'enzyme-adapter-react-16';
 
@@ -260,21 +261,31 @@
   ```
 
 ### Redux Tests:
+- create a **store factory**: a function that returns a store that will provide a store for testing purposes
+  ```javascript
+  // testUtils.js
+  import { createStore } from 'redux';
+  import reducer from './reducers';
+
+  export const storeFactory = (initialState) =>{
+      return createStore(reducer, initialState);
+  }
+  ```
+- if using middleware, such as Redux Thunk, create the store with middleware 
+  ```javascript
+  // testUtils.js
+  import { createStore, applyMiddleware } from 'redux';
+  import rootReducer from '../reducers';
+  import { middlewares } from '../configStore';
+
+  export const storeFactory = (initialState) => {
+      const createStoreWithMiddleWare = applyMiddleware(...middlewares)(createStore);
+      return createStoreWithMiddleWare(rootReducer, initialState);
+  }
+  ```
+
 
 #### Updates State When Action is Dispatched 
-- tests both the action and reducers - an integration test -`integeration.test.js` 
-- store factory: a function that returns a store that will provide a store for testing purposes
-- set up storeFactory with middleware in `test/testUtils.js`
-  ```javascript
-  import { createStore, applyMiddleware } from 'redux';
-  import rootReducer from './reducers';
-  import ReduxThunk from 'redux-thunk';
-
-  export const middlewares = [ReduxThunk];
-  const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore)
-
-  export default createStoreWithMiddleware(rootReducer);
-  ```
 - in the test file, import the store and before each test create a store with the initial state;
   ```javascript
   describe('no guessed words', () => {
