@@ -301,6 +301,11 @@
   ```javascript
   const state = store.getState();
   ```
+- getting the component state of a connected component
+  ```javascript
+  const wrapper = shallow(<AddForm store={store} />).dive();
+  wrapper.state();
+  ```
 #### Action is Dispatched When User Submits
 - in component where user submits: `componentName.test.js`
 - export the unconccected component (still export the connected component by default)
