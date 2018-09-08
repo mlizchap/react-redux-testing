@@ -306,7 +306,96 @@
   const wrapper = shallow(<AddForm store={store} />).dive();
   wrapper.state();
   ```
-#### Action is Dispatched When User Submits
+  
+#### Actions 
+##### Dispatch Action and Make Sure State Updates
+```javascript
+// actions/index.js
+it('when createTodo is dispatched, state is updated', () => {
+  const userInput = 'x'
+  const store = storeFactory();
+  store.dispatch(createTodo(userInput));
+  const expectedState = [{
+      name: userInput,
+      completed: false
+  }]
+  expect(store.getState().todos).toEqual(expectedState);
+})  
+```
+##### Action Creator Updates State When Dispatched 
+- **moxios**: instead of looking at the HTTP response from Axios, looks at a hard coated response we get from testing 
+- install moxios and import into action creator file:
+  ```javascript
+  // in action/index.test.js
+  import moxios from 'moxios';
+  ```
+- also import the storeFactory acnd action creator
+  ```javascript
+  import { storeFactory } from '../test/testUtils';
+  import { getSecretWord } from './';
+  ```
+- install moxios before the test and uninstall after
+  ```javascript
+    beforeEach(() => {
+        moxios.install();
+    });
+    afterEach(() => {
+        moxios.uninstall();
+    });
+  ```
+- use `moxios.wait()` to wait for the response and give a response that has the same shape as the expected response:
+  ```javascript
+    moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+            status: 200,
+            response: secretWord 
+        });
+    });
+  ```
+- dispatch the action creator and see if store is appropriately updated:
+  ```javscript
+  return store.dispatch(getSecretWord())
+      .then(() => {
+          const newState = store.getState();
+          expect(newState.secretWord).toBe(secretWord);
+      });
+  ```
+##### When Component is Mount - Action is dispatched
+- in `setupTest.js` disable lifeCycleMethods to prevent componentDidMount from running in the actual component
+    ```javascript
+    Enzyme.configure({ 
+        adapter: new EnzymeAdapter(),
+        disableLifecycleMethods: true,
+    });
+    ```
+ - in `input.test.js` create a mock function and create props with the mock funciton
+   ```javascript
+   // 
+    const getSecretWordMock = jest.fn();
+
+    const props = {
+      getSecretWord: getSecretWordMock,
+      success: false,
+      guessedWords: []
+    }
+    ```
+- set uo component with the mock function as the prop
+  ```javascript
+  const wrapper = shallow(<UnconnectedApp {...props} />)
+  ```
+- run the lifecycle method
+  ```javascript
+  wrapper.instance().componentDidMount();
+  ```
+- assert if the mock function ran
+  ```javascript
+  const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
+
+  expect(getSecretWordCallCount).toBe(1);
+  ```
+  
+#### When User Submits - Action is Dispatched 
 - in component where user submits: `componentName.test.js`
 - export the unconccected component (still export the connected component by default)
   ```javascript
@@ -366,37 +455,38 @@
       expect(wrapper.instance().inputBox.current.value).toBe('');
   })
   ```
-### Action is Dispatched When Component is Mount
-- in `setupTest.js` disable lifeCycleMethods to prevent componentDidMount from running in the actual component
-    ```javascript
-    Enzyme.configure({ 
-        adapter: new EnzymeAdapter(),
-        disableLifecycleMethods: true,
-    });
-    ```
- - in `input.test.js` create a mock function and create props with the mock funciton
-   ```javascript
-    const getSecretWordMock = jest.fn();
-
-    const props = {
-      getSecretWord: getSecretWordMock,
-      success: false,
-      guessedWords: []
-    }
-    ```
-- set uo component with the mock function as the prop
+#### Component Has Access to Redux ActionCreator Props 
+- in `component.test.js`
   ```javascript
-  const wrapper = shallow(<UnconnectedApp {...props} />)
+  const setup = (initialState={}) => {
+      const store = storeFactory(initialState);
+      const wrapper = shallow(<Input store={store}/>).dive();
+      return wrapper;
+  }
+  test('guessword action creator is a function prop', () => {
+      const wrapper = setup();
+      const successProp = wrapper.instance().props.guessWord;
+      expect(successProp).toBeInstanceOf(Function);
+  })
   ```
-- run the lifecycle method
-  ```javascript
-  wrapper.instance().componentDidMount();
-  ```
-- assert if the mock function ran
-  ```javascript
-  const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
 
-  expect(getSecretWordCallCount).toBe(1);
+
+#### Reducers 
+#### Reducer Returns Correct State Depending on if Action is Passed
+- in `reducers/reducerName.test.js`
+  ```javascript
+  // reducers/reducerName.js
+  import { actionTypes } from '../actions';
+  import successReducer from './successReducer';
+
+  test('returns default initial state of false when no action is passed', () => {
+      const newState = successReducer([initial state], {});
+      expect(newState).toBe(false);
+  });
+  test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
+      const newState = successReducer([initial state], {type: actionTypes.CORRECT_GUESS})
+      expect(newState).toBe(true);
+  });
   ```
 
 #### Component Has Access to Redux State Props 
@@ -418,75 +508,32 @@
       expect(successProp).toBe(success)
   });
   ```
-#### Component Has Access to Redux ActionCreator Props 
-- in `component.test.js`
-  ```javascript
-  const setup = (initialState={}) => {
-      const store = storeFactory(initialState);
-      const wrapper = shallow(<Input store={store}/>).dive();
-      return wrapper;
-  }
-  test('guessword action creator is a function prop', () => {
-      const wrapper = setup();
-      const successProp = wrapper.instance().props.guessWord;
-      expect(successProp).toBeInstanceOf(Function);
-  })
-  ```
 
-#### Reducer Returns Correct State Depending on if Action is Passed
-- in `reducers/reducerName.test.js`
-  ```javascript
-  import { actionTypes } from '../actions';
-  import successReducer from './successReducer';
 
-  test('returns default initial state of false when no action is passed', () => {
-      const newState = successReducer(undefined, {});
-      expect(newState).toBe(false);
-  });
-  test('returns state of true upon receiving an action of type CORRECT_GUESS', () => {
-      const newState = successReducer(undefined, {type: actionTypes.CORRECT_GUESS})
-      expect(newState).toBe(true);
-  });
-  ```
-#### Action Creator Updates State When Dispatched 
-- tests the action - `action/index.test.js`
-- **moxios**: instead of looking at the HTTP response from Axios, looks at a hard coated response we get from testing 
-- install moxios and import into action creator file:
-  ```javascript
-  import moxios from 'moxios';
-  ```
-- also import the storeFactory acnd action creator
-  ```javascript
-  import { storeFactory } from '../test/testUtils';
-  import { getSecretWord } from './';
-  ```
-- install moxios before the test and uninstall after
-  ```javascript
-    beforeEach(() => {
-        moxios.install();
-    });
-    afterEach(() => {
-        moxios.uninstall();
-    });
-  ```
-- use `moxios.wait()` to wait for the response and give a response that has the same shape as the expected response:
-  ```javascript
-    moxios.wait(() => {
-        const request = moxios.requests.mostRecent();
-        request.respondWith({
-            status: 200,
-            response: secretWord 
-        });
-    });
-  ```
-- dispatch the action creator and see if store is appropriately updated:
-  ```javscript
-  return store.dispatch(getSecretWord())
-      .then(() => {
-          const newState = store.getState();
-          expect(newState.secretWord).toBe(secretWord);
-      });
-  ```
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
 
 
 
