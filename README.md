@@ -395,7 +395,7 @@ it('when createTodo is dispatched, state is updated', () => {
   expect(getSecretWordCallCount).toBe(1);
   ```
   
-#### When User Submits - Action is Dispatched 
+##### When User Submits - Action is Dispatched 
 - in component where user submits: `componentName.test.js`
 - export the unconccected component (still export the connected component by default)
   ```javascript
@@ -455,7 +455,7 @@ it('when createTodo is dispatched, state is updated', () => {
       expect(wrapper.instance().inputBox.current.value).toBe('');
   })
   ```
-#### Component Has Access to Redux ActionCreator Props 
+##### Component Has Access to Redux ActionCreator Props 
 - in `component.test.js`
   ```javascript
   const setup = (initialState={}) => {
@@ -472,7 +472,7 @@ it('when createTodo is dispatched, state is updated', () => {
 
 
 #### Reducers 
-#### Reducer Returns Correct State Depending on if Action is Passed
+##### Reducer Returns Correct State Depending on if Action is Passed
 - in `reducers/reducerName.test.js`
   ```javascript
   // reducers/reducerName.js
@@ -489,7 +489,7 @@ it('when createTodo is dispatched, state is updated', () => {
   });
   ```
 
-#### Component Has Access to Redux State Props 
+##### Component Has Access to Redux State Props 
 - in `component.test.js`
 - since a connected component is a higher order component, we need to render the child component to test it using`dive()`
   ```javascript
