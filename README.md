@@ -16,7 +16,7 @@
   - [URL Paths](#url-paths)
 - [Redux Tests](#redux-tests)
   - [Actions](#actions)
-  - [Redux](#redux)
+  - [Reducers](#reducers)
 
 ## Overview
 - BDD - Behavior Driven Development: focuses on the behavior of the app
