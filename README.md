@@ -14,7 +14,9 @@
 - [Routing Tests](#react-router-tests)
   - [Links](#links)
   - [URL Paths](#url-paths)
-- [Redux Tests]
+- [Redux Tests](#redux-tests)
+  - [Actions](#actions)
+  - [Redux](#redux)
 
 ## Overview
 - BDD - Behavior Driven Development: focuses on the behavior of the app
@@ -260,7 +262,7 @@
   xpect(wrapper.find(component).length).toBe(1);
   ```
 
-### Redux Tests:
+### Redux Tests
 #### The Store
 - create a **store factory**: a function that returns a store that will provide a store for testing purposes
 - in `testUtils.js`
