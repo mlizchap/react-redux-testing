@@ -263,8 +263,8 @@
 ### Redux Tests:
 #### The Store
 - create a **store factory**: a function that returns a store that will provide a store for testing purposes
+- in `testUtils.js`
   ```javascript
-  // testUtils.js
   import { createStore } from 'redux';
   import reducer from './reducers';
 
@@ -273,8 +273,8 @@
   }
   ```
 - if using middleware, such as Redux Thunk, create the store with middleware 
+- in `testUtils.js`
   ```javascript
-  // testUtils.js
   import { createStore, applyMiddleware } from 'redux';
   import rootReducer from '../reducers';
   import { middlewares } from '../configStore';
@@ -284,7 +284,7 @@
       return createStoreWithMiddleWare(rootReducer, initialState);
   }
   ```
-- using the store in the component
+- using the store in the component in `componentName.js`
   ```javascript
   import { storeFactory } from '../testUtils';
   import App from './App';
@@ -309,8 +309,8 @@
   
 #### Actions 
 ##### Dispatch Action and Make Sure State Updates
+- in `actions/index.js`
 ```javascript
-// actions/index.js
 it('when createTodo is dispatched, state is updated', () => {
   const userInput = 'x'
   const store = storeFactory();
@@ -323,10 +323,10 @@ it('when createTodo is dispatched, state is updated', () => {
 })  
 ```
 ##### Action Creator Updates State When Dispatched 
+- in `action/index.test.js`
 - **moxios**: instead of looking at the HTTP response from Axios, looks at a hard coated response we get from testing 
 - install moxios and import into action creator file:
   ```javascript
-  // in action/index.test.js
   import moxios from 'moxios';
   ```
 - also import the storeFactory acnd action creator
